@@ -7,7 +7,15 @@ const enum Label {
 type Chord = string
 
 export class Testee {
-  constructor(private chords: Chord[], private label: Label){}
+  constructor(private _chords: Chord[], private _label: Label){}
+
+  public chords() {
+    return this._chords
+  }
+
+  public label() {
+    return this._label
+  }
 }
 
 const chordMap = {
