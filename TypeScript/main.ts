@@ -1,56 +1,20 @@
 import 'fs';
 import TrainMachine from './trainMachine'
 import { getTestees } from './testee';
+import { LabelManager } from './labelManager'
 
-var labelProbabilities = [];
-var chordCountsInLabels = {};
-var probabilityOfChordsInLabels = {};
-
-function setLabelProbabilities(trainMachine, labelCounts){
-  Object.keys(labelCounts).forEach(function(label){
-    var numberOfSongs = trainMachine.getNumberOfSongs();
-    labelProbabilities[label] = labelCounts[label] / numberOfSongs;
-  });
-};
-
-function setChordCountsInLabels(songs){
-  songs.forEach(function(i){
-    if(chordCountsInLabels[i[0]] === undefined){
-      chordCountsInLabels[i[0]] = {};
-    }
-    i[1].forEach(function(j){
-      if(chordCountsInLabels[i[0]][j] > 0){
-        chordCountsInLabels[i[0]][j] = chordCountsInLabels[i[0]][j] + 1;
-      } else {
-        chordCountsInLabels[i[0]][j] = 1;
-      }
-    })
-  })
-}
-
-function setProbabilityOfChordsInLabels(songs){
-  probabilityOfChordsInLabels = chordCountsInLabels;
-  Object.keys(probabilityOfChordsInLabels).forEach(function (i){
-    Object.keys(probabilityOfChordsInLabels[i]).forEach(function (j) {
-      probabilityOfChordsInLabels[i][j] = probabilityOfChordsInLabels[i][j] * 1.0 / songs.length;
-    });
-  });
-}
 
 const trainMachine = new TrainMachine(getTestees())
-
-setLabelProbabilities(trainMachine, trainMachine.getLabelCounts);
-setChordCountsInLabels(trainMachine.getSongs);
-setProbabilityOfChordsInLabels(trainMachine.getSongs);
+const labelManager = new LabelManager(trainMachine)
 
 function classify(chords){
-  var ttal = labelProbabilities;
+  var ttal = labelManager.labelProbabilities;
   console.log(ttal);
   var classified = {};
   Object.keys(ttal).forEach(function(obj) {
-    var first = labelProbabilities[obj] + 1.01;
+    var first = labelManager.labelProbabilities[obj] + 1.01;
     chords.forEach(function(chord){
-      var probabilityOfChordsInLabel = probabilityOfChordsInLabels[obj][chord];
+      var probabilityOfChordsInLabel = labelManager.probabilityOfChordsInLabels[obj][chord];
       if(probabilityOfChordsInLabel === undefined){
         first + 1.01;
       } else {
