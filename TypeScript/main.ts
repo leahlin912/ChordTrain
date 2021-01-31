@@ -5,7 +5,7 @@ import { LabelManager } from './labelManager'
 
 
 const trainMachine = new TrainMachine(getTestees())
-const labelManager = new LabelManager(trainMachine)
+const labelManager = new LabelManager(trainMachine.songs(), trainMachine.labelCounts())
 
 function classify(chords){
   var ttal = labelManager.labelProbabilities;

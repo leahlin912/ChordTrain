@@ -3,15 +3,15 @@ export class LabelManager {
   public chordCountsInLabels = {};
   public probabilityOfChordsInLabels = {};
 
-  constructor(trainMachine){
-    this.setLabelProbabilities(trainMachine, trainMachine.getLabelCounts);
-    this.setChordCountsInLabels(trainMachine.getSongs);
-    this.setProbabilityOfChordsInLabels(trainMachine.getSongs);
+  constructor(songs, labelCounts){
+    this.setLabelProbabilities(songs.length, labelCounts);
+    this.setChordCountsInLabels(songs);
+    this.setProbabilityOfChordsInLabels(songs);
   }
 
-  private setLabelProbabilities(trainMachine, labelCounts){
+  private setLabelProbabilities(songs, labelCounts){
     Object.keys(labelCounts).forEach(function(label){
-      var numberOfSongs = trainMachine.getNumberOfSongs();
+      var numberOfSongs = songs.length;
       this.labelProbabilities[label] = labelCounts[label] / numberOfSongs;
     });
   }
