@@ -2,30 +2,27 @@ import { Chord } from './testee'
 export default class Classification {
   private ADDITION = 1.01
   private _chords
-  private _classified = {}
 
   constructor( private _labelProbabilities, private _probabilityOfChordsInLabels){
     console.log(_labelProbabilities);
   }
 
   public classify(chords: Chord[]){
+    const classified = {}
     this._chords = chords
-    Object.keys(this._labelProbabilities).forEach(function(obj) {
-      this._classified[obj] = this.getFirst(obj);
+
+    Object.keys(this._labelProbabilities).forEach((obj) => {
+      classified[obj] = this.getFirst(obj);
     });
 
-    console.log(this._classified);
+    console.log(classified);
   }
 
   private getFirst(obj){
     let first = this.adding(this._labelProbabilities[obj]);
-    this._chords.forEach(function(chord){
-      const probabilityOfChordsInLabel = this._probabilityOfChordsInLabels[obj][chord];
-      if(probabilityOfChordsInLabel === undefined){
-        first = this.adding(first);
-      } else {
-        first = first * this.adding(probabilityOfChordsInLabel);
-      }
+    this._chords.forEach((chord) => {
+      const probability = this._probabilityOfChordsInLabels[obj][chord];
+      first = (probability === undefined) ? this.adding(first) : first * this.adding(probability)
     });
     return first;
   }

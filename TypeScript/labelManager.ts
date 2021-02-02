@@ -4,24 +4,25 @@ export default class LabelManager {
   public probabilityOfChordsInLabels = {};
 
   constructor(songs, labelCounts){
-    this.setLabelProbabilities(songs.length, labelCounts);
+    this.setLabelProbabilities(songs, labelCounts);
     this.setChordCountsInLabels(songs);
     this.setProbabilityOfChordsInLabels(songs);
   }
 
   private setLabelProbabilities(songs, labelCounts){
-    Object.keys(labelCounts).forEach(function(label){
-      var numberOfSongs = songs.length;
+    Object.keys(labelCounts).forEach((label) => {
+      const numberOfSongs = songs.length;
       this.labelProbabilities[label] = labelCounts[label] / numberOfSongs;
     });
+
   }
 
   private setChordCountsInLabels(songs){
-    songs.forEach(function(i){
+    songs.forEach((i) => {
       if(this.chordCountsInLabels[i[0]] === undefined){
         this.chordCountsInLabels[i[0]] = {};
       }
-      i[1].forEach(function(j){
+      i[1].forEach((j) => {
         if(this.chordCountsInLabels[i[0]][j] > 0){
           this.chordCountsInLabels[i[0]][j] = this.chordCountsInLabels[i[0]][j] + 1;
         } else {
@@ -33,8 +34,8 @@ export default class LabelManager {
 
   private setProbabilityOfChordsInLabels(songs){
     this.probabilityOfChordsInLabels = this.chordCountsInLabels;
-    Object.keys(this.probabilityOfChordsInLabels).forEach(function (i){
-      Object.keys(this.probabilityOfChordsInLabels[i]).forEach(function (j) {
+    Object.keys(this.probabilityOfChordsInLabels).forEach((i) => {
+      Object.keys(this.probabilityOfChordsInLabels[i]).forEach((j) => {
         this.probabilityOfChordsInLabels[i][j] = this.probabilityOfChordsInLabels[i][j] * 1.0 / songs.length;
       });
     });
