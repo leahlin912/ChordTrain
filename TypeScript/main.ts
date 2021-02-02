@@ -11,7 +11,7 @@ const classification = new Classification(labelManager.labelProbabilities, label
 
 function logClassify(classifyGroup){
   classifyGroup.forEach(group => {
-    classification.Classify(group);
+    classification.classify(group);
   })
 }
 
