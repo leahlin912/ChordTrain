@@ -4,7 +4,7 @@ const enum Label {
   Hard = 'hard',
 }
 
-type Chord = string
+export type Chord = string
 
 export class Testee {
   constructor(private _chords: Chord[], private _label: Label){}

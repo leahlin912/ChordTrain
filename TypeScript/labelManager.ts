@@ -1,4 +1,4 @@
-export class LabelManager {
+export default class LabelManager {
   public labelProbabilities = [];
   public chordCountsInLabels = {};
   public probabilityOfChordsInLabels = {};
