@@ -8,25 +8,29 @@ export default class Classification {
     console.log(_labelProbabilities);
   }
 
-  classify(chords: Chord[]){
+  public classify(chords: Chord[]){
     this._chords = chords
     Object.keys(this._labelProbabilities).forEach(function(obj) {
+      this._classified[obj] = this.getFirst(obj);
+    });
+
+    console.log(this._classified);
+  }
+
+  private getFirst(obj){
     let first = this.adding(this._labelProbabilities[obj]);
     this._chords.forEach(function(chord){
       const probabilityOfChordsInLabel = this._probabilityOfChordsInLabels[obj][chord];
       if(probabilityOfChordsInLabel === undefined){
-        this.adding(first);
+        first = this.adding(first);
       } else {
         first = first * this.adding(probabilityOfChordsInLabel);
       }
     });
-    this._classified[obj] = first;
-  });
-
-  console.log(this._classified);
+    return first;
   }
 
-  private adding(base){
+  private adding(base: number): number{
     return base + this.ADDITION
   }
 }
