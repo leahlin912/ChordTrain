@@ -19,17 +19,23 @@ export default class LabelManager {
 
   private setChordCountsInLabels(songs){
     songs.forEach((i) => {
-      if(this.chordCountsInLabels[i[0]] === undefined){
-        this.chordCountsInLabels[i[0]] = {};
-      }
+      this.initChordCountsInLabels(i)
+
       i[1].forEach((j) => {
-        if(this.chordCountsInLabels[i[0]][j] > 0){
-          this.chordCountsInLabels[i[0]][j] = this.chordCountsInLabels[i[0]][j] + 1;
+        const temp = this.chordCountsInLabels[i[0]]
+        if(temp[j] > 0){
+          temp[j] = temp[j] + 1;
         } else {
-          this.chordCountsInLabels[i[0]][j] = 1;
+          temp[j] = 1;
         }
       })
     })
+  }
+
+  private initChordCountsInLabels(song){
+    if(this.chordCountsInLabels[song[0]] === undefined){
+      this.chordCountsInLabels[song[0]] = {};
+    }
   }
 
   private setProbabilityOfChordsInLabels(songs){
